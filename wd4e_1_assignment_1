@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> ... Yifu Chen (Charles) 137b7c ... </title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  Welcome to my <span><b>webpage</b></span>!
+  <div>
+    <h1>
+      This is a header!
+    </h1>
+  </div>
+  <ul>
+
+    <li>random stuff </li>
+    <li>random stuff </li>
+    <li>random stuff </li>
+  </ul>
+...
+</body>
+</html>

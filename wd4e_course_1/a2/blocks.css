@@ -9,5 +9,50 @@ body {
 
 /* Here is one of many  CSS rules you will need... */
 #one {
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  border: 5px solid blue;
+  margin: 5px;
+  padding: 5px;
+  width: 25%;
+}
 
+#four {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  border: 5px solid yellow;
+  margin: 5px;
+  padding: 5px;
+  width: 25%;
+}
+
+#two {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  border: 5px solid green;
+  margin: 5px;
+  padding: 5px;
+  width: 25%;
+}
+
+#three {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border: 5px solid orange;
+  margin: 5px;
+  padding: 5px;
+  width: 25%;
+}
+
+a {
+  background-color: #3d59c6;
+  color: #fefefe;
+  position: relative;
+
+  left: 50%;
+  text-decoration: none;
 }

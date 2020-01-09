@@ -1,16 +1,14 @@
 <?php
-
+session_start();
 $pdo = new PDO('mysql:host=localhost;port=8889;dbname=misc',
 'fred', 'zap');
 // See the "errors" folder for details...
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-// Demand a GET parameter
-// if ( ! isset($_GET['name']) || strlen($_GET['name']) < 1  ) {
-//   $failure = "User name and password are required";
-// }
-
+if ( ! isset($_SESSION["account"]) ) {
+  die('Not logged in');
+}
 // If the user requested logout go back to index.php
 if ( isset($_POST['logout']) ) {
   header('Location: index.php');
@@ -35,7 +33,9 @@ if ( isset($_POST['mileage']) && isset($_POST['year'])) {
           ':yr' => $_POST['year'],
           ':mi' => $_POST['mileage'])
         );
-        $success =  "<div style ='color:green'> Record Inserted.</div>";
+        $_SESSION['inserted'] = "Record inserted";
+        header("Location: view.php");
+        return;
       } catch (Exception $ex) {
         echo ("Exception message: ".$ex->getMessage());
         return;
@@ -47,7 +47,7 @@ if ( isset($_POST['mileage']) && isset($_POST['year'])) {
   <!DOCTYPE html>
   <html>
   <head>
-    <title>Yifu Chen (Charles) c12437a1</title>
+    <title>Yifu Chen (Charles) 6d4e59d5</title>
     <?php require_once "bootstrap.php"; ?>
   </head>
   <body>

@@ -28,6 +28,11 @@ if ( isset($_POST['first_name']) && isset($_POST['last_name'])) {
     $_SESSION['error'] = "All fields are required";
     header("Location: add.php");
     return;
+  } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+    $_SESSION["error"] = "Email must have an at-sign (@)";
+    error_log("Login fail ".$_POST['email']." $check");
+    header("Location: add.php");
+    return;
   }
   // if(!(is_numeric($_POST['year']))) {
   //   $_SESSION['error'] = "Year must be an integer";

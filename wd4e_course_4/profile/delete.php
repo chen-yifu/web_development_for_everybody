@@ -19,14 +19,14 @@ if ( isset($_POST['cancel']) ) {
 
 $success = false;
 $failure = false;
-if (isset($_POST['autos_id'])) {
+if (isset($_POST['profile_id'])) {
   try {
-    $sql = "DELETE FROM autos WHERE autos_id = :id";
+    $sql = "DELETE FROM profile WHERE profile_id = :id";
 
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute(array(
-      ':id' => $_POST['autos_id']
+      ':id' => $_POST['profile_id']
     ));
     //
     // $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,20 +50,21 @@ if (isset($_POST['autos_id'])) {
 }
 
 
-$sql = "SELECT * FROM autos where autos_id = :id";
+$sql = "SELECT * FROM profile where profile_id = :id";
 $stmt = $pdo->prepare($sql);
-$stmt->execute(array(":id" => $_GET['autos_id']));
+$stmt->execute(array(":id" => $_GET['profile_id']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if($row === false) {
   $_SESSION['error'] = 'Bad value for id';
   header("Location: index.php");
   return;
 }
-$ma = htmlentities($row['make']);
-$mo = htmlentities($row['model']);
-$ye = htmlentities($row['year']);
-$mi = htmlentities($row['mileage']);
-$autos_id = $row['autos_id'];
+$fn = htmlentities($row['first_name']);
+$ln = htmlentities($row['last_name']);
+$em = htmlentities($row['email']);
+$hd = htmlentities($row['headline']);
+$su = htmlentities($row['summary']);
+$profile_id = $row['profile_id'];
 
 ?>
 <!DOCTYPE html>
@@ -75,13 +76,9 @@ $autos_id = $row['autos_id'];
 <body>
 
   <div class="container">
-    <h1>Editing Automobiles</h1>
+    <h1>Deleting Profile</h1>
     <?php
-    if ( isset($_REQUEST['name']) ) {
-      echo "<h1>Tracking Autos For: ";
-      echo htmlentities($_REQUEST['name']);
-      echo "</h1>\n";
-    }
+
     if ( isset($_SESSION['error']) ) {
       echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
       unset($_SESSION['error']);
@@ -91,8 +88,9 @@ $autos_id = $row['autos_id'];
     }
     ?>
     <form method="POST">
-
-      <input type="hidden" name="autos_id" value="<?= $autos_id?>"><br/>
+      <p>First Name: <?= $fn?></p>
+      <p>Last Name: <?= $ln?></p>
+      <input type="hidden" name="profile_id" value="<?= $profile_id?>"><br/>
       <input type="submit" value="Delete">
       <input type="submit" name="cancel" value="Cancel">
     </form>

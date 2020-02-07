@@ -52,7 +52,7 @@
             echo htmlentities($row['last_name']);
             echo " </td><td>";
             echo htmlentities($row['headline']);
-            echo " </td><td>";
+            // echo " </td><td>";
             // echo htmlentities($row['year']);
             // echo " </td><td>";
             // echo htmlentities($row['mileage']);

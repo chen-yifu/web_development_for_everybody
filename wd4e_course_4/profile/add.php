@@ -6,7 +6,7 @@ $pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=misc',
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-if ( ! isset($_SESSION["account"]) ) {
+if ( ! isset($_SESSION["user_id"]) ) {
   die('Not logged in');
   die("ACCESS DENIED");
 }
@@ -20,31 +20,39 @@ if ( isset($_POST['cancel']) ) {
 $success = false;
 $failure = false;
 
-if ( isset($_POST['mileage']) && isset($_POST['year'])) {
-  if(strlen($_POST['make']) < 1 || strlen($_POST['mileage']) < 1 || strlen($_POST['year']) < 1 || strlen($_POST['model']) < 1 ) {
+if ( isset($_POST['first_name']) && isset($_POST['last_name'])) {
+  if(strlen($_POST['first_name']) < 1 || strlen($_POST['last_name']) < 1
+  || strlen($_POST['email']) < 1 || strlen($_POST['headline']) < 1
+  || strlen($_POST['summary']) < 1 ) {
+
     $_SESSION['error'] = "All fields are required";
     header("Location: add.php");
     return;
   }
-  if(!(is_numeric($_POST['year']))) {
-    $_SESSION['error'] = "Year must be an integer";
-    header("Location: add.php");
-    return;
-  } else if (!is_numeric($_POST['mileage'])) {
-    $_SESSION['error'] =  "Mileage must be an integer";
-    header("Location: add.php");
-    return;
-  } else {
+  // if(!(is_numeric($_POST['year']))) {
+  //   $_SESSION['error'] = "Year must be an integer";
+  //   header("Location: add.php");
+  //   return;
+  // } else if (!is_numeric($_POST['mileage'])) {
+  //   $_SESSION['error'] =  "Mileage must be an integer";
+  //   header("Location: add.php");
+  //   return;
+  // }
+  else {
     try {
-      $stmt = $pdo->prepare("INSERT INTO autos
-        (make, model, year, mileage) VALUES ( :mk, :mo, :yr, :mi)");
+      $stmt = $pdo->prepare("INSERT INTO profile
+        (user_id, first_name, last_name, email, headline, summary)
+        VALUES ( :uid, :fi, :la, :em, :he, :su)");
 
         $res = $stmt->execute(array(
-          ':mk' => $_POST['make'],
-          ':mo' => $_POST['model'],
-          ':yr' => $_POST['year'],
-          ':mi' => $_POST['mileage'])
+          ':uid' => $_SESSION['user_id'],
+          ':fi' => $_POST['first_name'],
+          ':la' => $_POST['last_name'],
+          ':em' => $_POST['email'],
+          ':he' => $_POST['headline'],
+          ':su' => $_POST['summary'])
         );
+
         $_SESSION['success'] = "Record inserted, record added";
         header("Location: index.php");
         return;
@@ -81,15 +89,16 @@ if ( isset($_POST['mileage']) && isset($_POST['year'])) {
       }
       ?>
       <form method="POST">
-        <label for="make">Make   </label>
-        <input type="text" name="make" id="make"><br/>
-        <label for="model">Model</label>
-        <input type="text" name="model" id="model"><br/>
-        <label for="year">Year</label>
-        <input type="text" name="year" id="year"><br/>
-        <label for="mileage">Mileage</label>
-        <input type="text" name="mileage" id="mileage"><br/>
-
+        <label for="fn">First name   </label>
+        <input type="text" name="first_name" size="60" id="fn"><br/>
+        <label for="ln">Last name</label>
+        <input type="text" name="last_name" size="60" id="ln"><br/>
+        <label for="em">Email</label>
+        <input type="text" name="email" size="40" id="em"><br/>
+        <label for="hd">Headline</label>
+        <input type="text" name="headline" size="100" id="hd"><br/>
+        <label for="su">Summary</label>
+        <input type="text" name="summary" rows="8" size="80" id="su"><br/>
         <input type="submit" value="Add">
         <input type="submit" name="cancel" value="Cancel">
       </form>

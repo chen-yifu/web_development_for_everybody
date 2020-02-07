@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Welcome to View Automobiles Yifu Chen (Charles) 6d4e59d5</title>
+  <title>Welcome to View Profiles Yifu Chen (Charles) 6d4e59d5</title>
   <?php require_once "bootstrap.php"; ?>
 </head>
 <body>
   <div class="container">
-    <title>Welcome to View Automobiles Yifu Chen (Charles) 6d4e59d5</title>
+    <title>Welcome to View Profiles Yifu Chen (Charles) 6d4e59d5</title>
 
     <p>
       <?php
-      echo "<h1>Automobiles</h1>";
+      echo "<h1>Profiles</h1>";
       session_start();
       if (isset($_SESSION["success"])) {
         echo "<div style ='color:green'>".$_SESSION["success"]." </div>";
@@ -20,14 +20,15 @@
         echo "<div style ='color:red'>".$_SESSION["error"]." </div>";
         unset($_SESSION["error"]);
       }
-      if (isset($_SESSION["account"])) {
+
+      if (isset($_SESSION["user_id"])) {
         $pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=misc',
         'root', 'ubcfm123');
         // See the "errors" folder for details...
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-        $stmt = $pdo->prepare("SELECT profile_id, user_id, first_name, headline FROM profile");
+        $stmt = $pdo->prepare("SELECT profile_id, user_id, first_name, last_name, headline FROM profile");
         $stmt->execute();
         echo '<table border="1">'."\n";
 
@@ -38,17 +39,17 @@
             $first = false;
           } else {
             if($first) {
-              echo "<tr><td>Make";
-              echo " </td><td>Model";
-              echo " </td><td>Year";
-              echo " </td><td>Mileage";
+              echo "<tr><td>Name";
+              echo " </td><td>Headline";
               echo " </td><td>Action";
               echo "</td></tr>\n";
               $first = false;
             }
 
             echo "<tr><td>";
-            echo htmlentities($row['name']);
+            echo htmlentities($row['first_name']);
+            echo " ";
+            echo htmlentities($row['last_name']);
             echo " </td><td>";
             echo htmlentities($row['headline']);
             echo " </td><td>";
@@ -56,8 +57,8 @@
             // echo " </td><td>";
             // echo htmlentities($row['mileage']);
             echo " </td><td>";
-            echo "<a href='edit.php?autos_id=" . $row['profile_id'] ."''" ."> Edit </a>";
-            echo "<a href='delete.php?autos_id=" . $row['profile_id'] ."''". "> Delete </a>";
+            echo "<a href='edit.php?profile_id=" . $row['profile_id'] ."''" ."> Edit </a>";
+            echo "<a href='delete.php?profile_id=" . $row['profile_id'] ."''". "> Delete </a>";
             echo "</td></tr>\n";
           }
         }

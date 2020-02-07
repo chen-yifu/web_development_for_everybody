@@ -6,17 +6,17 @@ $pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=misc',
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-if ( ! isset($_SESSION["account"]) ) {
+if ( ! isset($_SESSION["user_id"]) ) {
   die('Not logged in');
   die("ACCESS DENIED");
-
-
 }
 // If the user requested logout go back to index.php
 if ( isset($_POST['cancel']) ) {
   header('Location: index.php');
   return;
 }
+
+
 $success = false;
 $failure = false;
 if (isset($_POST['autos_id'])) {
